@@ -1,0 +1,78 @@
+.requests-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.page-header h1 {
+    color: var(--forest-green);
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: var(--muted-text);
+    font-size: 15px;
+}
+
+#message {
+    margin: 20px 0;
+    color: var(--muted-text);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.request-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.request-card {
+    background: var(--white);
+    border: 1.5px solid var(--card-border);
+    border-top: 5px solid var(--forest-green);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.request-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.request-card h2 {
+    color: var(--forest-green);
+    font-size: 20px;
+    margin-bottom: 14px;
+    overflow-wrap: anywhere;
+}
+
+.request-detail {
+    color: var(--dark-text);
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.request-detail strong {
+    color: var(--forest-green);
+    font-weight: 700;
+}
+
+.request-date {
+    border-top: 1px solid rgba(6, 59, 34, 0.08);
+    padding-top: 12px;
+    margin-top: 16px;
+    color: var(--muted-text);
+    font-size: 12px;
+}

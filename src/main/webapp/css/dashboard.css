@@ -1,0 +1,92 @@
+.dashboard-body {
+    background-color: var(--warm-cream);
+    min-height: 100vh;
+}
+
+.dashboard-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+.welcome-section {
+    text-align: center;
+    margin-bottom: 40px;
+    background: var(--white);
+    border: 1.5px solid var(--card-border);
+    border-radius: 18px;
+    padding: 36px 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.welcome-section h1 {
+    color: var(--forest-green);
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.welcome-section p {
+    color: var(--muted-text);
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background-color: var(--white);
+    padding: 34px 26px;
+    border-radius: 16px;
+    border: 1.5px solid var(--card-border);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--forest-green);
+}
+
+.card h2 {
+    color: var(--forest-green);
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: var(--muted-text);
+    line-height: 1.55;
+    margin-bottom: 24px;
+    font-size: 14px;
+    flex-grow: 1;
+}
+
+.card button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--coral-orange);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.card button:hover {
+    background-color: var(--coral-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(255, 96, 63, 0.25);
+}

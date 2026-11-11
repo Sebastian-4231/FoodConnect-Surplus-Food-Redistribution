@@ -1,0 +1,108 @@
+.requests-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+.page-header {
+    margin-bottom: 28px;
+}
+
+.page-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--forest-green);
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: var(--muted-text);
+    font-size: 15px;
+}
+
+#message {
+    color: var(--forest-green);
+    font-weight: 600;
+    margin-bottom: 24px;
+    font-size: 14px;
+}
+
+.request-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.request-card {
+    background: var(--white);
+    border: 1.5px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.request-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(6, 59, 34, 0.25);
+}
+
+.request-card h2 {
+    color: var(--forest-green);
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 16px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(6, 59, 34, 0.08);
+    overflow-wrap: anywhere;
+}
+
+.request-detail {
+    margin: 6px 0;
+    font-size: 14px;
+    color: var(--muted-text);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.request-detail strong {
+    color: var(--forest-green);
+    font-weight: 700;
+}
+
+.request-date {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(6, 59, 34, 0.12);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted-text);
+}
+
+.empty-state {
+    background: var(--white);
+    padding: 40px 24px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1.5px dashed var(--card-border);
+    color: var(--muted-text);
+    font-size: 15px;
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 600px) {
+    .requests-container {
+        margin: 24px auto;
+        padding: 0 16px;
+    }
+    .page-header h1 {
+        font-size: 26px;
+    }
+    .request-list {
+        grid-template-columns: 1fr;
+    }
+}

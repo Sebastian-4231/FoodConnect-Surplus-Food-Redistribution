@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <filter>
+        <filter-name>NoCacheFilter</filter-name>
+        <filter-class>servlet.NoCacheFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>NoCacheFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>MarkDeliveredServlet</servlet-name>
+        <servlet-class>servlet.MarkDeliveredServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MarkDeliveredServlet</servlet-name>
+        <url-pattern>/mark-delivered</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserProfileServlet</servlet-name>
+        <servlet-class>servlet.UserProfileServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserProfileServlet</servlet-name>
+        <url-pattern>/user-profile</url-pattern>
+    </servlet-mapping>
+
+</web-app>

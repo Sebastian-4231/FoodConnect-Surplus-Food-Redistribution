@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>FoodConnect - Donor Requests</title>
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/donor-requests.css?v=3">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-logo">FoodConnect</div>
+        <div class="nav-links">
+            <a href="donor-dashboard.html">Home</a>
+            <a href="add-food.html">Add Food</a>
+            <a href="my-food.html">My Food</a>
+            <a href="donor-requests.html">Requests</a>
+            <a href="smart-surplus.html">Analytics</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </nav>
+
+    <main class="requests-container">
+        <div class="page-header">
+            <h1>Food Requests</h1>
+            <p>View recipient requests, delivery addresses, and payment confirmations for your donations.</p>
+        </div>
+
+        <p id="message">Loading requests...</p>
+        <div id="requestList" class="request-list"></div>
+    </main>
+
+    <script>
+        function loadRequests() {
+            const message = document.getElementById("message");
+            const requestList = document.getElementById("requestList");
+
+            fetch("donor-requests?t=" + new Date().getTime(), { cache: "no-store" })
+                .then(response => {
+                    if (!response.ok) throw new Error("Unable to load requests.");
+                    return response.json();
+                })
+                .then(requests => {
+                    requestList.innerHTML = "";
+
+                    if (requests.length === 0) {
+                        message.textContent = "No requests have been received for your food yet.";
+                        return;
+                    }
+
+                    message.textContent = requests.length + " request(s) received.";
+
+                    requests.forEach(item => {
+                        const card = document.createElement("div");
+                        card.className = "request-card";
+
+                        const delStatus = (item.deliveryStatus || "Waiting").toLowerCase();
+                        let badgeHtml = '<span class="status-badge">Waiting for Delivery</span>';
+                        if (delStatus === "delivered") {
+                            badgeHtml = '<span class="status-badge delivered">Delivered</span>';
+                        } else if (delStatus === "assigned") {
+                            badgeHtml = '<span class="status-badge assigned">Assigned — In Transit</span>';
+                        }
+
+                        card.innerHTML = `
+                            <h2>${escapeHtml(item.foodName)}</h2>
+                            <p class="request-detail"><strong>Requested Quantity:</strong> ${item.requestedQuantity} unit(s)</p>
+                            <p class="request-detail"><strong>Recipient:</strong> ${escapeHtml(item.recipientName)} (@${escapeHtml(item.recipientUsername)})</p>
+                            <p class="request-detail"><strong>Food Pickup Location:</strong> ${escapeHtml(item.pickupLocation)}</p>
+                            <p class="request-detail"><strong>Recipient Delivery Address:</strong> ${escapeHtml(item.deliveryAddress)}</p>
+                            <p class="request-detail"><strong>Total Amount:</strong> ₹ ${escapeHtml(item.totalAmount)}</p>
+                            <p class="request-detail"><strong>Payment Status:</strong> <span class="payment-badge">${escapeHtml(item.paymentStatus)} (Demo)</span></p>
+                            <p class="request-detail"><strong>Request Status:</strong> ${escapeHtml(item.status || "Pending")}</p>
+                            <p class="request-detail"><strong>Delivery Status:</strong><br>${badgeHtml}</p>
+                            <p class="request-date">Requested on: ${escapeHtml(item.requestDate)}</p>
+                        `;
+
+                        requestList.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    message.textContent = "Unable to load requests. Please try again.";
+                    console.error(error);
+                });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadRequests();
+    </script>
+</body>
+</html>

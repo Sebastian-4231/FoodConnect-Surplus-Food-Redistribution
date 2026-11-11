@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>FoodConnect - My Food</title>
+
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/my-food.css?v=3">
+</head>
+
+<body class="my-food-body">
+
+    <nav class="navbar">
+
+        <div class="nav-logo">
+            FoodConnect
+        </div>
+
+        <div class="nav-links">
+            <a href="donor-dashboard.html">Home</a>
+            <a href="add-food.html">Add Food</a>
+            <a href="my-food.html">My Food</a>
+            <a href="donor-requests.html">Requests</a>
+            <a href="smart-surplus.html">Analytics</a>
+            <a href="login.html">Logout</a>
+        </div>
+
+    </nav>
+
+
+    <div class="my-food-container">
+
+        <div class="page-header">
+            <h1>My Food</h1>
+
+            <p>
+                View the food you have added for redistribution.
+            </p>
+        </div>
+
+
+        <div id="foodList" class="food-list"></div>
+
+    </div>
+
+
+    <script>
+
+function displayFood() {
+
+    fetch("my-food")
+        .then(response => response.text())
+        .then(data => {
+
+            document.getElementById("foodList").innerHTML = data;
+
+        })
+        .catch(error => {
+
+            console.error("Error loading food:", error);
+
+            document.getElementById("foodList").innerHTML = `
+                <div class="no-food">
+                    <h2>Error Loading Food</h2>
+                    <p>Unable to load your food items.</p>
+                </div>
+            `;
+
+        });
+}
+
+
+function deleteFood(foodId) {
+
+    if (!confirm("Are you sure you want to remove this food?")) {
+        return;
+    }
+
+    fetch("delete-food?id=" + foodId, {
+        method: "POST"
+    })
+    .then(response => response.text())
+    .then(data => {
+
+        displayFood();
+
+    })
+    .catch(error => {
+
+        console.error("Error deleting food:", error);
+
+    });
+}
+
+
+displayFood();
+
+</script>
+
+</body>
+
+</html>

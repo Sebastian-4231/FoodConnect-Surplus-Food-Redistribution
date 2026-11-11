@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>FoodConnect - Registration</title>
+
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/register.css?v=3">
+</head>
+
+<body class="register-body">
+
+    <div class="register-container">
+
+        <div class="logo">
+            <h1>FoodConnect</h1>
+            <p>Connecting Food. Sharing Hope.</p>
+        </div>
+
+        <h2>Create Account</h2>
+
+        <form id="registerForm" action="register" method="post">
+
+            <div class="input-group">
+                <label for="name">Name</label>
+
+                <input type="text"
+                       id="name"
+                       name="name"
+                       placeholder="Enter your name">
+            </div>
+
+            <div class="input-group">
+                <label for="username">Username</label>
+
+                <input type="text"
+                       id="username"
+                       name="username"
+                       placeholder="Enter username">
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Enter password">
+            </div>
+
+            <div class="input-group">
+                <label for="location">Location</label>
+
+                <input type="text"
+                       id="location"
+                       name="location"
+                       placeholder="Enter your location">
+            </div>
+
+            <div class="input-group">
+                <label for="userType">User Type</label>
+
+                <select id="userType" name="userType">
+
+                    <option value="">Select user type</option>
+                    <option value="Donor">Donor</option>
+                    <option value="Delivery Partner">Delivery Partner</option>
+                    <option value="Recipient">Recipient</option>
+
+                </select>
+            </div>
+
+            <p id="registerMessage" class="error-message"></p>
+
+            <button type="submit" class="login-btn">
+                Register
+            </button>
+
+        </form>
+
+        <p class="register-text">
+            Already have an account?
+            <a href="login.html">Login</a>
+        </p>
+
+    </div>
+
+
+   <script>
+
+document.getElementById("registerForm").addEventListener("submit", function(event) {
+
+    let name = document.getElementById("name").value.trim();
+    let username = document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value.trim();
+    let location = document.getElementById("location").value.trim();
+    let userType = document.getElementById("userType").value;
+
+    let registerMessage = document.getElementById("registerMessage");
+
+    registerMessage.textContent = "";
+    registerMessage.style.color = "#d32f2f";
+
+
+    // Name validation
+    if (name === "") {
+        event.preventDefault();
+        registerMessage.textContent = "Name cannot be empty.";
+        return;
+    }
+
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        event.preventDefault();
+        registerMessage.textContent =
+            "Name should contain only letters and spaces.";
+        return;
+    }
+
+
+    // Username validation
+    if (username === "") {
+        event.preventDefault();
+        registerMessage.textContent = "Username cannot be empty.";
+        return;
+    }
+
+    if (!/^[A-Za-z0-9_]{4,20}$/.test(username)) {
+        event.preventDefault();
+        registerMessage.textContent =
+            "Username must contain 4-20 characters and can use letters, numbers, and underscore.";
+        return;
+    }
+
+
+    // Password validation
+    if (password === "") {
+        event.preventDefault();
+        registerMessage.textContent = "Password cannot be empty.";
+        return;
+    }
+
+    if (password.length < 5) {
+        event.preventDefault();
+        registerMessage.textContent =
+            "Password must contain at least 5 characters.";
+        return;
+    }
+
+
+    // Location validation
+    if (location === "") {
+        event.preventDefault();
+        registerMessage.textContent = "Location cannot be empty.";
+        return;
+    }
+
+
+    // User type validation
+    if (userType === "") {
+        event.preventDefault();
+        registerMessage.textContent =
+            "Please select a user type.";
+        return;
+    }
+
+    // If all validation passes,
+    // the form will be submitted to RegisterServlet.
+
+});
+
+</script>
+
+</body>
+
+</html>

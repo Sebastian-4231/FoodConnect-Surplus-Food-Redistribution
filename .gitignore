@@ -1,0 +1,48 @@
+# Java compiled files
+*.class
+target/
+build/
+out/
+
+# Compiled web application output
+src/main/webapp/WEB-INF/classes/
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.iml
+
+# Environment and local configuration files
+.env
+.env.*
+!.env.example
+*.local
+db.properties
+database.properties
+application-secrets.properties
+config.properties
+credentials.properties
+secrets.properties
+
+# Local test data containing sample usernames/passwords
+html/users.json
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+
+# Database backups and dumps
+*.sql.backup
+*.sql.bak
+*.dump
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Operating system files
+.DS_Store
+Thumbs.db

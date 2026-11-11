@@ -1,0 +1,140 @@
+.available-food-body {
+    background-color: var(--warm-cream);
+    min-height: 100vh;
+}
+
+.available-food-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    color: var(--forest-green);
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: var(--muted-text);
+    font-size: 15px;
+}
+
+.location-section {
+    background-color: var(--white);
+    padding: 24px 28px;
+    border-radius: 16px;
+    border: 1.5px solid var(--card-border);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.location-section label {
+    font-weight: 700;
+    color: var(--forest-green);
+    font-size: 14px;
+}
+
+.location-section select {
+    padding: 11px 16px;
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    min-width: 220px;
+    font-size: 14px;
+    font-family: inherit;
+    background-color: var(--white);
+}
+
+.location-section select:focus {
+    outline: none;
+    border-color: var(--forest-green);
+}
+
+.location-section button {
+    padding: 11px 24px;
+    background-color: var(--coral-orange);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.location-section button:hover {
+    background-color: var(--coral-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 96, 63, 0.25);
+}
+
+.message {
+    text-align: center;
+    margin: 20px 0;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.message.error { color: #DC2626; }
+.message.success { color: #15803D; }
+
+.food-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 24px;
+}
+
+.food-card {
+    background-color: var(--white);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1.5px solid var(--card-border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.food-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--forest-green);
+}
+
+.food-card h2 {
+    color: var(--forest-green);
+    font-size: 19px;
+}
+
+.food-card button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 11px 18px;
+    background-color: var(--coral-orange);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.food-card button:hover {
+    background-color: var(--coral-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(255, 96, 63, 0.25);
+}

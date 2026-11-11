@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>FoodConnect - Food Analytics & SmartSurplus</title>
+    <link rel="stylesheet" href="css/common.css?v=4">
+    <link rel="stylesheet" href="css/smart_surplus.css?v=4">
+</head>
+<body class="analytics-body">
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-logo">FoodConnect</div>
+        <div class="nav-links">
+            <a href="donor-dashboard.html">Home</a>
+            <a href="add-food.html">Add Food</a>
+            <a href="my-food.html">My Food</a>
+            <a href="donor-requests.html">Requests</a>
+            <a href="smart-surplus.html" style="background-color:rgba(255,255,255,0.18); color:var(--lime-green);">Analytics</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </nav>
+
+    <div class="analytics-container">
+        <!-- Hero Header -->
+        <header class="analytics-header">
+            <div>
+                <h1>FoodConnect SmartSurplus</h1>
+                <p>Track historical food surplus, monitor waste reduction, and optimize future cooking batch sizes.</p>
+            </div>
+            <div class="header-badge">SMARTSURPLUS ACTIVE</div>
+        </header>
+
+        <!-- Filter Controls -->
+        <div class="filter-card">
+            <form id="filterForm" style="display:flex; gap:16px; width:100%; align-items:flex-end; flex-wrap:wrap;">
+                <div class="filter-group">
+                    <label for="startDate">From Date</label>
+                    <input type="date" id="startDate" name="startDate">
+                </div>
+                <div class="filter-group">
+                    <label for="endDate">To Date</label>
+                    <input type="date" id="endDate" name="endDate">
+                </div>
+                <div class="filter-group" style="flex:1.5;">
+                    <label for="foodFilter">Filter by Food Name</label>
+                    <input type="text" id="foodFilter" name="foodFilter" placeholder="e.g. Rice, Meals, Curry...">
+                </div>
+                <button type="submit" class="btn-filter">Apply Filter</button>
+                <button type="button" id="btnReset" class="btn-reset">Reset</button>
+            </form>
+        </div>
+
+        <!-- Metrics Overview Grid -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Total Food Listed</div>
+                <div class="metric-value" id="metricListed">0 units</div>
+                <div class="metric-sub">Initial preparation volume</div>
+            </div>
+            <div class="metric-card highlight">
+                <div class="metric-title">Successfully Redistributed</div>
+                <div class="metric-value" id="metricDelivered" style="color:#15803d;">0 units</div>
+                <div class="metric-sub">Delivered to recipients</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Remaining / Unclaimed</div>
+                <div class="metric-value" id="metricRemaining">0 units</div>
+                <div class="metric-sub">Currently available</div>
+            </div>
+            <div class="metric-card warn">
+                <div class="metric-title">Confirmed Wasted</div>
+                <div class="metric-value" id="metricWasted" style="color:var(--coral-orange);">0 units</div>
+                <div class="metric-sub">Discarded or spoiled</div>
+            </div>
+            <div class="metric-card highlight">
+                <div class="metric-title">Redistribution Rate</div>
+                <div class="metric-value" id="metricRate" style="color:var(--forest-green);">0.0%</div>
+                <div class="metric-sub">Delivered / Listed ratio</div>
+            </div>
+        </div>
+
+        <!-- Smart Cooking Recommendations Section -->
+        <div class="recommendations-container">
+            <h2 class="section-title"> Smart Cooking Recommendations</h2>
+            <div id="recommendationsList" class="recommendations-grid">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Surplus Trends & Top Surplus Foods -->
+        <div class="analytics-row">
+            <div class="analytics-card">
+                <h2> Weekly Surplus Trends</h2>
+                <div id="trendsContainer">
+                    <!-- Injected via JavaScript -->
+                </div>
+            </div>
+            <div class="analytics-card">
+                <h2> Highest Surplus Foods</h2>
+                <div id="topFoodsContainer">
+                    <!-- Injected via JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Surplus & Redistribution History Table -->
+        <div class="table-card">
+            <h2 class="section-title">Surplus & Redistribution History</h2>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Food Item</th>
+                        <th>Listed Date</th>
+                        <th>Listed Qty</th>
+                        <th>Requested</th>
+                        <th>Delivered</th>
+                        <th>Remaining</th>
+                        <th>Status</th>
+                        <th>Recorded Outcome</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <!-- Injected via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Outcome Recording Modal -->
+    <div id="outcomeModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Record Food Outcome</h3>
+            <p style="font-size:13px; color:var(--muted-text); margin-bottom:16px;">
+                Record what happened to unclaimed portions for <strong id="modalFoodName" style="color:var(--forest-green);"></strong> 
+                (Remaining: <span id="modalRemainingQty" style="font-weight:700;"></span> units).
+            </p>
+            <form id="outcomeForm">
+                <input type="hidden" id="modalFoodId">
+                <div class="input-group" style="margin-bottom:14px;">
+                    <label for="outcomeSelect">Select Final Outcome</label>
+                    <select id="outcomeSelect" style="width:100%; padding:10px; border-radius:8px; border:1.5px solid var(--card-border); font-family:inherit;">
+                        <option value="Used Internally">Used Internally (Consumed by staff or team)</option>
+                        <option value="Discarded / Wasted">Discarded / Wasted (Spoiled or thrown out)</option>
+                        <option value="Successfully Redistributed">Fully Redistributed (Completed off-platform)</option>
+                        <option value="Still Available">Still Available</option>
+                    </select>
+                </div>
+                <div id="wasteQtyGroup" class="input-group" style="display:none; margin-bottom:14px;">
+                    <label for="wastedQuantity">Quantity Wasted / Discarded (Units)</label>
+                    <input type="number" id="wastedQuantity" min="1" step="1" style="width:100%; padding:10px; border-radius:8px; border:1.5px solid var(--card-border); font-family:inherit;">
+                </div>
+                <div class="input-group" style="margin-bottom:18px;">
+                    <label for="outcomeNotes">Notes (Optional)</label>
+                    <textarea id="outcomeNotes" rows="2" placeholder="e.g. End of day surplus consumed in cafeteria" style="width:100%; padding:10px; border-radius:8px; border:1.5px solid var(--card-border); font-family:inherit;"></textarea>
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:10px;">
+                    <button type="button" onclick="closeOutcomeModal()" class="btn-reset" style="height:38px; padding:8px 16px;">Cancel</button>
+                    <button type="submit" class="btn-filter" style="height:38px; padding:8px 18px; background-color:var(--coral-orange);">Save Outcome</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/smart_surplus.js?v=4"></script>
+</body>
+</html>

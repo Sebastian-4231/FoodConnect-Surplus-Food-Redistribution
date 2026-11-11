@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>FoodConnect - My Deliveries</title>
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/my-deliveries.css?v=3">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-logo">FoodConnect</div>
+        <div class="nav-links">
+            <a href="delivery_dashboard.html">Home</a>
+            <a href="available-deliveries.html">Available Deliveries</a>
+            <a href="my-deliveries.html">My Deliveries</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </nav>
+
+    <main class="delivery-container">
+        <div class="page-header">
+            <h1>My Deliveries</h1>
+            <p>Track food delivery routes and complete assigned requests.</p>
+        </div>
+
+        <p id="message">Loading your deliveries...</p>
+        <div id="deliveryList" class="delivery-list"></div>
+    </main>
+
+    <script>
+        function loadDeliveries() {
+            const message = document.getElementById("message");
+            const deliveryList = document.getElementById("deliveryList");
+
+            fetch("my-deliveries")
+                .then(response => {
+                    if (!response.ok) throw new Error("Unable to load deliveries.");
+                    return response.json();
+                })
+                .then(deliveries => {
+                    deliveryList.innerHTML = "";
+
+                    if (deliveries.length === 0) {
+                        message.textContent = "You have not accepted any deliveries yet.";
+                        return;
+                    }
+
+                    message.textContent = deliveries.length + " assigned delivery/deliveries.";
+
+                    deliveries.forEach(item => {
+                        const card = document.createElement("div");
+                        card.className = "delivery-card";
+
+                        const status = (item.deliveryStatus || "").toLowerCase();
+                        let badgeHtml = '<span class="status-badge">Assigned — Awaiting Delivery</span>';
+                        if (status === "delivered") {
+                            badgeHtml = '<span class="status-badge delivered">Delivered</span>';
+                        }
+
+                        let actionHtml = '';
+                        if (status.trim() === "assigned") {
+                            actionHtml = `<button class="delivered-button" type="button" onclick="markDelivered(${item.requestId}, this)">Mark as Delivered</button>`;
+                        } else if (status === "delivered") {
+                            actionHtml = `<div class="completed-message">✓ Delivery Completed</div>`;
+                        }
+
+                        card.innerHTML = `
+                            <h2>${escapeHtml(item.foodName)}</h2>
+                            <p class="delivery-detail"><strong>Requested Quantity:</strong> ${item.requestedQuantity} unit(s)</p>
+                            <p class="delivery-detail"><strong>Food Pickup Location:</strong> ${escapeHtml(item.pickupLocation)}</p>
+                            <p class="delivery-detail"><strong>Recipient Delivery Address:</strong> ${escapeHtml(item.deliveryAddress)}</p>
+                            <p class="delivery-detail"><strong>Delivery Status:</strong><br>${badgeHtml}</p>
+                            <p class="delivery-date">Requested on: ${escapeHtml(item.requestDate)}</p>
+                            ${actionHtml}
+                        `;
+
+                        deliveryList.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    message.textContent = "Unable to load deliveries. Please try again.";
+                    console.error(error);
+                });
+        }
+
+        function markDelivered(requestId, button) {
+            if (!confirm("Have you completed this delivery?")) return;
+
+            button.disabled = true;
+            button.textContent = "Updating...";
+
+            fetch("mark-delivered", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "requestId=" + encodeURIComponent(requestId)
+            })
+            .then(async response => {
+                const result = await response.text();
+                if (!response.ok) throw new Error(result || "Unable to update delivery status.");
+                return result;
+            })
+            .then(result => {
+                alert(result);
+                loadDeliveries();
+            })
+            .catch(error => {
+                alert(error.message);
+                button.disabled = false;
+                button.textContent = "Mark as Delivered";
+            });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadDeliveries();
+    </script>
+</body>
+</html>

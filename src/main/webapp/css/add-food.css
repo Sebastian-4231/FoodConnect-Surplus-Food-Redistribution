@@ -1,0 +1,75 @@
+.add-food-body {
+    background-color: var(--warm-cream);
+    min-height: 100vh;
+}
+
+.add-food-container {
+    width: 90%;
+    max-width: 560px;
+    margin: 40px auto;
+    background-color: var(--white);
+    padding: 38px 32px;
+    border-radius: 18px;
+    border: 1.5px solid var(--card-border);
+    box-shadow: var(--shadow-md);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.form-header h1 {
+    color: var(--forest-green);
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: var(--muted-text);
+    font-size: 14px;
+}
+
+.food-message {
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: none;
+}
+
+.food-message.error {
+    color: #DC2626;
+    background-color: #FEE2E2;
+    border: 1px solid #FCA5A5;
+    display: block;
+}
+
+.food-message.success {
+    color: #15803D;
+    background-color: #DCFCE7;
+    border: 1px solid #86EFAC;
+    font-weight: 700;
+    display: block;
+}
+
+.food-btn {
+    width: 100%;
+    padding: 13px 20px;
+    background-color: var(--coral-orange);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.food-btn:hover {
+    background-color: var(--coral-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(255, 96, 63, 0.25);
+}

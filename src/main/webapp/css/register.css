@@ -1,0 +1,61 @@
+.register-body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--warm-cream);
+    padding: 35px 20px;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 480px;
+    background-color: var(--white);
+    padding: 38px 32px;
+    border-radius: 18px;
+    border: 1.5px solid var(--card-border);
+    box-shadow: var(--shadow-md);
+}
+
+.register-container .logo {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.register-container .logo h1 {
+    font-size: 28px;
+    color: var(--forest-green);
+    letter-spacing: -0.5px;
+}
+
+.register-container .logo p {
+    color: var(--muted-text);
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+.register-container h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--forest-green);
+}
+
+.register-text {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--muted-text);
+}
+
+.register-text a {
+    color: var(--coral-orange);
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 4px;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}

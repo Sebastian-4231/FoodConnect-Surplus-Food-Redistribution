@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>FoodConnect - Available Food</title>
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/available-food.css?v=3">
+    <style>
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6, 59, 34, 0.6); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-card { background: #ffffff; width: 90%; max-width: 480px; border-radius: 18px; padding: 26px 28px; box-shadow: 0 16px 40px rgba(6, 59, 34, 0.25); border: 2px solid var(--forest-green); max-height: 90vh; overflow-y: auto; box-sizing: border-box; }
+        .modal-card h2 { margin: 0 0 6px; color: var(--forest-green); font-size: 22px; }
+        .demo-badge { background: #FEF3C7; color: #92400E; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 6px; display: inline-block; margin-bottom: 14px; border: 1px solid #FCD34D; }
+        .modal-row { margin-bottom: 12px; }
+        .modal-row label { display: block; font-weight: 700; margin-bottom: 4px; font-size: 13px; color: var(--forest-green); }
+        .modal-row input, .modal-row textarea { width: 100%; padding: 10px 12px; border: 1.5px solid var(--card-border); border-radius: 8px; box-sizing: border-box; font-size: 14px; font-family: inherit; }
+        .modal-row input:focus, .modal-row textarea:focus { border-color: var(--forest-green); outline: none; }
+        .modal-row-grid { display: flex; gap: 10px; }
+        .modal-row-grid > div { flex: 1; }
+        .total-box { background: #E8F5E9; border: 1.5px solid #A5D6A7; padding: 12px; border-radius: 10px; margin: 14px 0; text-align: center; }
+        .total-box .total-label { font-size: 12px; color: var(--muted-text); display: block; font-weight: 600; margin-bottom: 2px; }
+        .total-box .total-amount { font-size: 24px; font-weight: 800; color: #15803D; }
+        .modal-error { color: #DC2626; background: #FEE2E2; border: 1px solid #FCA5A5; padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; display: none; font-weight: 600; }
+        .btn-pay { background: var(--coral-orange); color: #ffffff; border: none; padding: 12px; border-radius: 10px; width: 100%; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+        .btn-pay:hover:not(:disabled) { background: var(--coral-hover); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(255, 96, 63, 0.25); }
+        .btn-pay:disabled { background: #CBD5E1; cursor: not-allowed; }
+        .btn-cancel { background: #F1F5F9; color: var(--muted-text); border: none; padding: 10px; border-radius: 10px; width: 100%; margin-top: 8px; cursor: pointer; font-size: 14px; font-weight: 700; font-family: inherit; }
+        .btn-cancel:hover { background: #E2E8F0; }
+        .confirm-box { text-align: center; padding: 8px 0; }
+        .confirm-box .success-icon { font-size: 46px; color: #16A34A; line-height: 1; margin-bottom: 8px; }
+        .confirm-box h3 { color: var(--forest-green); margin: 4px 0 14px; font-size: 20px; }
+        .receipt-details { background: var(--warm-cream); border: 1.5px solid var(--card-border); border-radius: 10px; padding: 14px; text-align: left; margin-bottom: 18px; font-size: 14px; line-height: 1.6; }
+    </style>
+</head>
+<body class="available-food-body">
+    <nav class="navbar">
+        <a href="recipient_dashboard.html" class="nav-logo">Food<span>Connect</span></a>
+        <div class="nav-links">
+            <a href="recipient_dashboard.html">Home</a>
+            <a href="available-food.html">Available Food</a>
+            <a href="my-requests.html">My Requests</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </nav>
+    <div class="available-food-container">
+        <div class="page-header">
+            <h1>Available Food Marketplace</h1>
+            <p>Rescue delicious meals and surplus food from verified local donors.</p>
+        </div>
+        <div class="location-section">
+            <label for="location">Select Location</label>
+            <select id="location">
+                <option value="">Select a location</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Kochi">Kochi</option>
+                <option value="Chennai">Chennai</option>
+            </select>
+            <button type="button" onclick="showFood()">Search Food</button>
+        </div>
+        <p id="message" class="message"></p>
+        <div id="foodList" class="food-list"></div>
+    </div>
+
+    <!-- Request & Dummy Payment Modal -->
+    <div id="requestModal" class="modal-overlay">
+        <div class="modal-card">
+            <div id="modalFormView">
+                <h2>Request Food</h2>
+                <div class="demo-badge">Simulated Payment (Demo Mode — No real money transfer)</div>
+                <div class="modal-row">
+                    <label>Food Item</label>
+                    <input type="text" id="mFoodName" readonly style="background:#F8FAFC;">
+                </div>
+                <div class="modal-row modal-row-grid">
+                    <div>
+                        <label>Available Qty</label>
+                        <input type="text" id="mAvailableQty" readonly style="background:#F8FAFC;">
+                    </div>
+                    <div>
+                        <label>Price / Unit</label>
+                        <input type="text" id="mPricePerUnit" readonly style="background:#F8FAFC;">
+                    </div>
+                </div>
+                <div class="modal-row">
+                    <label for="mRequestedQty">Requested Quantity (Units / Plates)</label>
+                    <input type="number" id="mRequestedQty" min="1" value="1" oninput="updateTotalCalculation()">
+                </div>
+                <div class="modal-row">
+                    <label for="mDeliveryAddress">Delivery Address (Editable)</label>
+                    <textarea id="mDeliveryAddress" rows="2" placeholder="Enter recipient delivery address"></textarea>
+                </div>
+                <div class="total-box">
+                    <span class="total-label">Calculated Total Amount</span>
+                    <div class="total-amount" id="mTotalDisplay">₹ 0.00</div>
+                </div>
+                <div id="modalError" class="modal-error"></div>
+                <button type="button" id="payNowBtn" class="btn-pay" onclick="submitPaymentAndRequest()">Pay Now</button>
+                <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+            </div>
+            <div id="modalSuccessView" style="display:none;" class="confirm-box">
+                <div class="success-icon">&#10004;</div>
+                <h3>Payment Successful — Order Confirmed</h3>
+                <div class="receipt-details" id="successDetails"></div>
+                <button type="button" class="btn-pay" onclick="location.href='my-requests.html'">View My Requests</button>
+                <button type="button" class="btn-cancel" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFood = null, currentFoodsMap = {}, recipientLocation = "";
+
+        function fetchProfile() {
+            return fetch("user-profile?_t=" + Date.now())
+                .then(r => r.ok ? r.json() : null)
+                .then(d => { if (d && d.location) recipientLocation = d.location; })
+                .catch(() => {});
+        }
+        fetchProfile();
+
+        function showFood() {
+            const loc = document.getElementById("location").value;
+            const list = document.getElementById("foodList"), msg = document.getElementById("message");
+            list.innerHTML = ""; msg.textContent = ""; currentFoodsMap = {};
+            if (!loc) { msg.textContent = "Please select a location."; msg.className = "message error"; return; }
+
+            fetch("available-food?location=" + encodeURIComponent(loc) + "&_t=" + Date.now())
+                .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+                .then(foods => {
+                    if (foods.length === 0) {
+                        msg.textContent = "No food is currently available at this location.";
+                        msg.className = "message error"; return;
+                    }
+                    msg.textContent = foods.length + " food item(s) available."; msg.className = "message success";
+                    foods.forEach(f => {
+                        currentFoodsMap[f.id] = f;
+                        const card = document.createElement("div"); card.className = "food-card";
+                        const unitPrice = parseFloat(f.pricePerUnit) || 0;
+                        const priceBadge = (unitPrice <= 0)
+                            ? `<span style="background:var(--lime-green);color:var(--forest-green);padding:4px 10px;border-radius:6px;font-weight:800;font-size:12px;">FREE</span>`
+                            : `<span style="background:#FFF3CD;color:#856404;padding:4px 10px;border-radius:6px;font-weight:800;font-size:12px;">₹ ${unitPrice.toFixed(2)}</span>`;
+                        const descHtml = f.description ? `<p style="font-style:italic;color:var(--muted-text);font-size:13px;margin:6px 0 10px;">${escapeHtml(f.description)}</p>` : "";
+                        card.innerHTML = `
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                                <h2 style="margin:0;font-size:18px;">${escapeHtml(f.foodName)}</h2>
+                                ${priceBadge}
+                            </div>
+                            ${descHtml}
+                            <p style="margin:6px 0;font-size:13px;color:var(--muted-text);"><strong>Available:</strong> ${escapeHtml(f.quantity)} unit(s)</p>
+                            <p style="margin:6px 0;font-size:13px;color:var(--muted-text);"><strong>Pickup:</strong> 📍 ${escapeHtml(f.location)}</p>
+                            <button type="button" onclick="openModalById(${f.id})">Request Food</button>
+                        `;
+                        list.appendChild(card);
+                    });
+                })
+                .catch(() => { msg.textContent = "Unable to load food. Please try again."; msg.className = "message error"; });
+        }
+
+        async function openModalById(foodId) {
+            const food = currentFoodsMap[foodId];
+            if (!food) return;
+            currentFood = food;
+            if (!recipientLocation) await fetchProfile();
+            document.getElementById("mFoodName").value = food.foodName;
+            document.getElementById("mAvailableQty").value = food.quantity + " unit(s)";
+            document.getElementById("mPricePerUnit").value = "₹ " + (parseFloat(food.pricePerUnit) || 0).toFixed(2);
+            document.getElementById("mRequestedQty").value = 1;
+            document.getElementById("mRequestedQty").max = parseInt(food.quantity) || 1;
+            document.getElementById("mDeliveryAddress").value = recipientLocation || food.location || "";
+            document.getElementById("modalError").style.display = "none";
+            document.getElementById("modalFormView").style.display = "block";
+            document.getElementById("modalSuccessView").style.display = "none";
+            document.getElementById("payNowBtn").disabled = false;
+            updateTotalCalculation();
+            document.getElementById("requestModal").style.display = "flex";
+        }
+
+        window.requestFood = function(foodId) { openModalById(foodId); };
+
+        function closeModal() {
+            document.getElementById("requestModal").style.display = "none";
+            currentFood = null;
+        }
+
+        function updateTotalCalculation() {
+            if (!currentFood) return;
+            const qty = parseInt(document.getElementById("mRequestedQty").value) || 0;
+            const unitPrice = parseFloat(currentFood.pricePerUnit) || 0;
+            const total = qty > 0 ? (qty * unitPrice) : 0;
+            document.getElementById("mTotalDisplay").textContent = "₹ " + total.toFixed(2);
+            document.getElementById("payNowBtn").textContent = "Pay Now (Demo ₹ " + total.toFixed(2) + ")";
+        }
+
+        function submitPaymentAndRequest() {
+            if (!currentFood) return;
+            const err = document.getElementById("modalError"), btn = document.getElementById("payNowBtn");
+            const reqQty = parseInt(document.getElementById("mRequestedQty").value);
+            const availQty = parseInt(currentFood.quantity) || 0;
+            const address = document.getElementById("mDeliveryAddress").value.trim();
+
+            err.style.display = "none";
+            if (isNaN(reqQty) || reqQty <= 0) {
+                err.textContent = "Please enter a valid requested quantity greater than 0.";
+                err.style.display = "block"; return;
+            }
+            if (reqQty > availQty) {
+                err.textContent = "Requested quantity exceeds available quantity (" + availQty + ").";
+                err.style.display = "block"; return;
+            }
+            if (!address) {
+                err.textContent = "Delivery address is required and cannot be empty or whitespace-only.";
+                err.style.display = "block"; return;
+            }
+
+            btn.disabled = true; btn.textContent = "Processing Payment...";
+            const body = "foodId=" + encodeURIComponent(currentFood.id) +
+                         "&requestedQuantity=" + encodeURIComponent(reqQty) +
+                         "&deliveryAddress=" + encodeURIComponent(address);
+
+            fetch("request-food", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: body
+            })
+            .then(async r => {
+                const data = await r.json();
+                if (!r.ok || !data.success) throw new Error(data.message || "Failed to process request");
+                return data;
+            })
+            .then(data => {
+                document.getElementById("modalFormView").style.display = "none";
+                document.getElementById("modalSuccessView").style.display = "block";
+                document.getElementById("successDetails").innerHTML =
+                    `<div><strong>Food Item:</strong> ${escapeHtml(currentFood.foodName)}</div>` +
+                    `<div><strong>Requested Quantity:</strong> ${escapeHtml(String(data.requestedQuantity || reqQty))} unit(s)</div>` +
+                    `<div><strong>Delivery Address:</strong> ${escapeHtml(data.deliveryAddress || address)}</div>` +
+                    `<div><strong>Total Amount:</strong> ₹ ${escapeHtml(String(data.totalAmount))}</div>` +
+                    `<div><strong>Payment Status:</strong> <span style="color:#15803D;font-weight:700;">${escapeHtml(data.paymentStatus || 'Paid')} (Demo)</span></div>`;
+                showFood();
+            })
+            .catch(e => {
+                err.textContent = e.message || "Unable to submit request.";
+                err.style.display = "block";
+                btn.disabled = false;
+                updateTotalCalculation();
+            });
+        }
+
+        function escapeHtml(t) {
+            if (!t) return "";
+            const d = document.createElement("div"); d.textContent = t; return d.innerHTML;
+        }
+    </script>
+</body>
+</html>

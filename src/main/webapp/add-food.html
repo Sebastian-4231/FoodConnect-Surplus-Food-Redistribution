@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>FoodConnect - Add Food</title>
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/add-food.css?v=3">
+</head>
+
+<body class="add-food-body">
+
+    <nav class="navbar">
+        <div class="nav-logo">FoodConnect</div>
+        <div class="nav-links">
+            <a href="donor-dashboard.html">Home</a>
+            <a href="add-food.html">Add Food</a>
+            <a href="my-food.html">My Food</a>
+            <a href="donor-requests.html">Requests</a>
+            <a href="smart-surplus.html">Analytics</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </nav>
+
+    <div class="add-food-container">
+        <div class="form-header">
+            <h1>Add Available Food</h1>
+            <p>Add surplus food that is available for redistribution.</p>
+        </div>
+
+        <form id="foodForm" action="add-food" method="post">
+            <div class="input-group">
+                <label for="foodName">Food Name</label>
+                <input type="text" id="foodName" name="foodName" placeholder="Enter food name (e.g. Veg Meals)">
+            </div>
+
+            <div class="input-group">
+                <label for="quantity">Available Quantity (Units / Plates / Portions)</label>
+                <input type="number" id="quantity" name="quantity" min="1" step="1" placeholder="e.g. 10">
+            </div>
+
+            <div class="input-group">
+                <label for="location">Pickup Location</label>
+                <input type="text" id="location" name="location" placeholder="Enter food pickup location (e.g. Kochi)">
+            </div>
+
+            <div class="input-group">
+                <label for="price">Price per Unit (₹)</label>
+                <input type="number" id="price" name="price" min="0" step="0.50" value="0.00" placeholder="0.00 (Enter 0.00 for free donation)">
+                <small style="color:#5f6368;font-size:12px;margin-top:4px;display:block;">Set ₹0.00 for free donation, or specify subsidized price per unit.</small>
+            </div>
+
+            <div class="input-group">
+                <label for="description">Description (Optional)</label>
+                <textarea id="description" name="description" rows="3" placeholder="Brief details about packaging, freshness, or dietary info" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;font-family:inherit;"></textarea>
+            </div>
+
+            <p id="foodMessage" class="food-message"></p>
+
+            <button type="submit" class="food-btn">Add Food</button>
+        </form>
+    </div>
+
+    <script>
+    document.getElementById("foodForm").addEventListener("submit", function(event) {
+        let foodName = document.getElementById("foodName").value.trim();
+        let quantity = document.getElementById("quantity").value.trim();
+        let location = document.getElementById("location").value.trim();
+        let price = document.getElementById("price").value.trim();
+        let foodMessage = document.getElementById("foodMessage");
+
+        foodMessage.textContent = "";
+        foodMessage.className = "food-message";
+
+        if (foodName === "") {
+            event.preventDefault();
+            foodMessage.textContent = "Food name cannot be empty.";
+            foodMessage.classList.add("error");
+            return;
+        }
+
+        if (quantity === "" || isNaN(quantity) || parseInt(quantity) <= 0) {
+            event.preventDefault();
+            foodMessage.textContent = "Please enter a valid quantity greater than 0.";
+            foodMessage.classList.add("error");
+            return;
+        }
+
+        if (location === "") {
+            event.preventDefault();
+            foodMessage.textContent = "Pickup location cannot be empty.";
+            foodMessage.classList.add("error");
+            return;
+        }
+
+        if (price === "" || isNaN(price) || parseFloat(price) < 0) {
+            event.preventDefault();
+            foodMessage.textContent = "Price must be a valid non-negative number (e.g. 0.00 or higher).";
+            foodMessage.classList.add("error");
+            return;
+        }
+    });
+    </script>
+</body>
+</html>

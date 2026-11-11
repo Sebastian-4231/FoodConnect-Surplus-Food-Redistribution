@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --forest-green: #063B22;
+    --forest-dark: #032415;
+    --lime-green: #D5F52F;
+    --lime-soft: #EEF8A1;
+    --warm-cream: #F7F7E8;
+    --coral-orange: #FF603F;
+    --coral-hover: #E64A2A;
+    --white: #FFFFFF;
+    --muted-text: #53665A;
+    --dark-text: #172B1E;
+    --card-border: rgba(6, 59, 34, 0.12);
+    --shadow-sm: 0 4px 14px rgba(6, 59, 34, 0.05);
+    --shadow-md: 0 10px 28px rgba(6, 59, 34, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--warm-cream);
+    color: var(--dark-text);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+/* Navigation Bar */
+.navbar {
+    min-height: 72px;
+    background-color: var(--forest-green);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 6%;
+    border-bottom: 2px solid rgba(213, 245, 47, 0.25);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.nav-logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+    color: var(--lime-green);
+}
+
+/* Typography & Headers */
+h1, h2, h3 {
+    font-weight: 800;
+    color: var(--forest-green);
+    letter-spacing: -0.5px;
+}
+
+/* Standard Inputs & Controls */
+.input-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--forest-green);
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    background-color: var(--white);
+    color: var(--dark-text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: var(--forest-green);
+    box-shadow: 0 0 0 3px rgba(6, 59, 34, 0.12);
+}
+
+/* Primary Action Buttons */
+.login-btn,
+.food-btn,
+.btn-primary {
+    width: 100%;
+    padding: 13px 20px;
+    background-color: var(--coral-orange);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.login-btn:hover,
+.food-btn:hover,
+.btn-primary:hover {
+    background-color: var(--coral-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(255, 96, 63, 0.28);
+}
+
+.btn-secondary {
+    background-color: var(--forest-green);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: var(--forest-dark);
+}
+
+.btn-lime {
+    background-color: var(--lime-green);
+    color: var(--forest-green);
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-lime:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+}
+
+/* Badges & Status */
+.status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FCD34D;
+}
+
+.status-badge.assigned {
+    background-color: #E0F2FE;
+    color: #0369A1;
+    border: 1px solid #BAE6FD;
+}
+
+.status-badge.delivered {
+    background-color: #DCFCE7;
+    color: #15803D;
+    border: 1px solid #86EFAC;
+}
+
+.payment-badge {
+    background-color: var(--lime-green);
+    color: var(--forest-green);
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+/* Messages */
+.error-message {
+    color: #DC2626;
+    background: #FEE2E2;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.error-message:empty {
+    display: none;
+}

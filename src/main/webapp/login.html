@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>FoodConnect - Login</title>
+
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/login.css?v=3">
+</head>
+
+<body class="login-body">
+
+    <div class="login-container">
+
+        <div class="logo">
+            <h1>FoodConnect</h1>
+            <p>Connecting Food. Sharing Hope.</p>
+        </div>
+
+        <h2>Login</h2>
+
+        <form id="loginForm" action="login" method="post">
+
+            <div class="input-group">
+                <label for="username">Username</label>
+
+                <input type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Enter your username">
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Enter your password">
+            </div>
+
+            <p id="errorMessage" class="error-message"></p>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+        <p class="register-text">
+            Don't have an account?
+            <a href="register.html">Register</a>
+        </p>
+
+    </div>
+
+
+    <script>
+
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+
+        let username = document.getElementById("username").value.trim();
+        let password = document.getElementById("password").value.trim();
+
+        let errorMessage = document.getElementById("errorMessage");
+
+        errorMessage.textContent = "";
+
+        // Check empty username
+        if (username === "") {
+            event.preventDefault();
+            errorMessage.textContent = "Username cannot be empty.";
+            return;
+        }
+
+        // Check empty password
+        if (password === "") {
+            event.preventDefault();
+            errorMessage.textContent = "Password cannot be empty.";
+            return;
+        }
+
+        // If both fields are valid,
+        // the form will submit to LoginServlet.
+
+    });
+
+</script>
+
+</body>
+
+</html>

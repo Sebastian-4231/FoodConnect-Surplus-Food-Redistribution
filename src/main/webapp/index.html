@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodConnect - Food Waste Redistribution System</title>
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <style>
+        .hero {
+            padding: 70px 6% 60px;
+            background: linear-gradient(135deg, #063B22 0%, #0A5331 100%);
+            color: #ffffff;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 40px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background-color: var(--lime-green);
+            color: var(--forest-green);
+            font-weight: 800;
+            font-size: 13px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .hero h1 {
+            color: #ffffff;
+            font-size: clamp(34px, 4.5vw, 54px);
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+        .hero h1 span { color: var(--lime-green); }
+        .hero p {
+            color: #D6E4DB;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 520px;
+        }
+        .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+        .hero-img-box {
+            background: var(--warm-cream);
+            border-radius: 18px;
+            padding: 22px;
+            border: 2px solid var(--lime-green);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            color: var(--forest-green);
+        }
+        .hero-img-box img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            background: #E8EDE4;
+        }
+        .hero-stat { font-size: 26px; font-weight: 800; color: var(--forest-green); }
+        .hero-stat-label { font-size: 13px; color: var(--muted-text); font-weight: 600; }
+        .section { padding: 60px 6%; text-align: center; }
+        .section-tag { color: var(--coral-orange); font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        .section h2 { font-size: 32px; margin: 8px 0 16px; }
+        .section-sub { color: var(--muted-text); font-size: 16px; max-width: 620px; margin: 0 auto 40px; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; text-align: left; }
+        .step-card {
+            background: #ffffff;
+            border: 1.5px solid var(--card-border);
+            border-radius: 14px;
+            padding: 28px 24px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+        .step-num {
+            background: var(--lime-green);
+            color: var(--forest-green);
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 16px;
+            margin-bottom: 16px;
+        }
+        .step-card h3 { font-size: 19px; margin-bottom: 8px; }
+        .step-card p { color: var(--muted-text); font-size: 14px; line-height: 1.5; }
+        .roles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .role-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px 24px;
+            border: 1.5px solid var(--card-border);
+            box-shadow: var(--shadow-sm);
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .role-icon { font-size: 36px; margin-bottom: 12px; }
+        .role-card h3 { font-size: 20px; margin-bottom: 8px; }
+        .role-card p { color: var(--muted-text); font-size: 14px; margin-bottom: 20px; flex-grow: 1; }
+        footer {
+            background: var(--forest-green);
+            color: #D6E4DB;
+            padding: 40px 6%;
+            text-align: center;
+            font-size: 14px;
+            border-top: 2px solid rgba(213, 245, 47, 0.2);
+        }
+        footer a { color: var(--lime-green); text-decoration: none; margin: 0 10px; font-weight: 600; }
+        @media (max-width: 820px) {
+            .hero { grid-template-columns: 1fr; padding: 45px 6%; text-align: center; }
+            .hero p { margin-left: auto; margin-right: auto; }
+            .hero-cta { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Food<span>Connect</span></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="available-food.html">Available Food</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="btn-primary" style="padding:8px 16px;width:auto;">Register</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div>
+            <span class="hero-badge">🌱 Zero Waste Marketplace</span>
+            <h1>Rescue Good Food.<br>Feed Hope. <span>Cut Waste.</span></h1>
+            <p>FoodConnect connects local restaurants, caterers, and homes with community members to redistribute surplus food quickly, safely, and transparently.</p>
+            <div class="hero-cta">
+                <a href="available-food.html" class="btn-primary" style="width:auto;padding:14px 26px;">Explore Available Food</a>
+                <a href="register.html" class="btn-lime" style="width:auto;">Join FoodConnect</a>
+            </div>
+        </div>
+        <div class="hero-img-box">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80" alt="Fresh Prepared Food" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'600\' height=\'240\' fill=\'%23063B22\'><rect width=\'100%25\' height=\'100%25\' fill=\'%23F7F7E8\'/><text x=\'50%25\' y=\'50%25\' font-size=\'22\' text-anchor=\'middle\' fill=\'%23063B22\' font-weight=\'bold\'>🥗 Wholesome Surplus Food</text></svg>'">
+            <div class="hero-stat">100% Impactful</div>
+            <div class="hero-stat-label">Doorstep Delivery • Subsidized & Free Surplus • Verified Donors</div>
+        </div>
+    </header>
+
+    <section class="section">
+        <span class="section-tag">How It Works</span>
+        <h2>Three Simple Steps to Save Food</h2>
+        <p class="section-sub">Redistributing surplus food has never been simpler. Whether donating, requesting, or delivering, everyone wins.</p>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h3>Donors Post Surplus</h3>
+                <p>Donors specify food name, available quantity, pickup location, and subsidized or zero price in seconds.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h3>Recipients Request</h3>
+                <p>Community members browse nearby surplus food, customize portions, and set their delivery address.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h3>Partners Deliver</h3>
+                <p>Verified delivery volunteers pick up orders from donors and hand them over safely to recipients.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background:#ffffff;">
+        <span class="section-tag">Get Involved</span>
+        <h2>Made For Every Role in the Community</h2>
+        <p class="section-sub">Choose your role and start contributing to zero hunger and zero waste today.</p>
+        <div class="roles-grid">
+            <div class="role-card">
+                <div class="role-icon">🍲</div>
+                <h3>Food Donors</h3>
+                <p>Restaurants, event hosts, and individuals can list quality excess meals instead of tossing them away.</p>
+                <a href="login.html" class="btn-secondary">Donor Portal</a>
+            </div>
+            <div class="role-card">
+                <div class="role-icon">🤝</div>
+                <h3>Recipients</h3>
+                <p>Access wholesome, delicious meals at zero cost or nominal donor prices with direct delivery tracking.</p>
+                <a href="available-food.html" class="btn-primary">Browse Food</a>
+            </div>
+            <div class="role-card">
+                <div class="role-icon">🚴</div>
+                <h3>Delivery Partners</h3>
+                <p>Support your neighborhood by accepting nearby food delivery routes and marking milestones in real time.</p>
+                <a href="login.html" class="btn-secondary">Delivery Portal</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p style="margin-bottom:12px;font-weight:700;color:#ffffff;font-size:17px;">🌱 FoodConnect — Food Waste Redistribution System</p>
+        <p style="margin-bottom:16px;">
+            <a href="index.html">Home</a> •
+            <a href="available-food.html">Available Food</a> •
+            <a href="login.html">Login</a> •
+            <a href="register.html">Register</a>
+        </p>
+        <p style="font-size:12px;opacity:0.8;">© 2026 FoodConnect. Dedicated to eliminating food waste and hunger.</p>
+    </footer>
+</body>
+</html>

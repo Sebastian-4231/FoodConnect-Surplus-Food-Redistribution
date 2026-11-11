@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>FoodConnect - Recipient Dashboard</title>
+
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/recipient_dashboard.css?v=3">
+</head>
+
+<body class="recipient-body">
+
+    <nav class="navbar">
+        <div class="nav-logo">FoodConnect</div>
+
+        <div class="nav-links">
+            <a href="recipient_dashboard.html">Home</a>
+            <a href="available-food.html">Available Food</a>
+            <a href="my-requests.html">My Requests</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </nav>
+
+
+    <div class="dashboard-container">
+
+        <div class="welcome-section">
+            <h1>Recipient Dashboard</h1>
+            <p>Find available food and request what you need.</p>
+        </div>
+
+
+        <div class="dashboard-cards">
+
+            <div class="card">
+                <h2>Available Food</h2>
+
+                <p>
+                    Find food available for redistribution in your location.
+                </p>
+
+                <button onclick="location.href='available-food.html'">
+                    View Food
+                </button>
+            </div>
+
+            <div class="card">
+                <h2>My Requests</h2>
+
+                <p>
+                    View the food requests you have submitted.
+                </p>
+
+                <button onclick="location.href='my-requests.html'">
+                    View Requests
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

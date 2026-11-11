@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>FoodConnect - Available Deliveries</title>
+    <link rel="stylesheet" href="css/common.css?v=3">
+    <link rel="stylesheet" href="css/available-deliveries.css?v=3">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-logo">FoodConnect</div>
+        <div class="nav-links">
+            <a href="delivery_dashboard.html">Home</a>
+            <a href="available-deliveries.html">Available Deliveries</a>
+            <a href="my-deliveries.html">My Deliveries</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </nav>
+
+    <main class="delivery-container">
+        <div class="page-header">
+            <h1>Available Deliveries</h1>
+            <p>Find food requests waiting for a delivery partner.</p>
+        </div>
+
+        <p id="message">Loading available deliveries...</p>
+        <div id="deliveryList" class="delivery-list"></div>
+    </main>
+
+    <script>
+        function loadDeliveries() {
+            const message = document.getElementById("message");
+            const deliveryList = document.getElementById("deliveryList");
+
+            fetch("available-deliveries")
+                .then(response => {
+                    if (!response.ok) throw new Error("Unable to load deliveries.");
+                    return response.json();
+                })
+                .then(deliveries => {
+                    deliveryList.innerHTML = "";
+
+                    if (deliveries.length === 0) {
+                        message.textContent = "No deliveries are currently waiting.";
+                        return;
+                    }
+
+                    message.textContent = deliveries.length + " delivery request(s) available.";
+
+                    deliveries.forEach(item => {
+                        const card = document.createElement("div");
+                        card.className = "delivery-card";
+
+                        card.innerHTML = `
+                            <h2>${escapeHtml(item.foodName)}</h2>
+                            <p class="delivery-detail"><strong>Requested Quantity:</strong> ${item.requestedQuantity} unit(s)</p>
+                            <p class="delivery-detail"><strong>Food Pickup Location:</strong> ${escapeHtml(item.pickupLocation)}</p>
+                            <p class="delivery-detail"><strong>Recipient Delivery Address:</strong> ${escapeHtml(item.deliveryAddress)}</p>
+                            <p class="delivery-detail"><strong>Delivery Status:</strong> Waiting for Partner</p>
+                            <p class="delivery-detail"><strong>Requested On:</strong> ${escapeHtml(item.requestDate)}</p>
+                            <button class="accept-button" type="button" onclick="acceptDelivery(${item.requestId}, this)">Accept Delivery</button>
+                        `;
+
+                        deliveryList.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    message.textContent = "Unable to load deliveries. Please try again.";
+                    console.error(error);
+                });
+        }
+
+        function acceptDelivery(requestId, button) {
+            if (!confirm("Do you want to accept this delivery?")) return;
+
+            button.disabled = true;
+            button.textContent = "Accepting...";
+
+            fetch("accept-delivery", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "requestId=" + encodeURIComponent(requestId)
+            })
+            .then(async response => {
+                const message = await response.text();
+                if (!response.ok) throw new Error(message || "Unable to accept delivery.");
+                return message;
+            })
+            .then(message => {
+                alert(message);
+                loadDeliveries();
+            })
+            .catch(error => {
+                alert(error.message);
+                button.disabled = false;
+                button.textContent = "Accept Delivery";
+            });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadDeliveries();
+    </script>
+</body>
+</html>
